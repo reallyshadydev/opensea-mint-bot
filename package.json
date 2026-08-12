@@ -1,0 +1,27 @@
+{
+  "name": "hoodbirds-mint-bot",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Multi-wallet public mint bot for OpenSea SeaDrop collections. Collection and chain are configured via .env.",
+  "scripts": {
+    "status": "tsx src/index.ts status",
+    "check": "tsx src/index.ts check",
+    "generate": "tsx src/index.ts generate",
+    "fund": "tsx src/index.ts fund",
+    "snipe": "tsx src/index.ts snipe",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "viem": "^2.55.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "tsx": "^4.20.5",
+    "typescript": "~5.9.2"
+  }
+}

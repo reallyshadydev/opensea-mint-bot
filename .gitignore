@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+!.env.example
+wallets.csv
+wallets*.csv
+!wallets.example.csv
+results.json
+*.log
+.DS_Store
