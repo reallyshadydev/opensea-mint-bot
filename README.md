@@ -6,6 +6,8 @@ You do not need to write any code. You paste a few commands, fill in a settings 
 
 Works on **Windows**, **macOS**, and **Linux**. It is set up for **[HoodBirds](https://opensea.io/collection/hoodbirdss)** on **Robinhood Chain** out of the box. Change two lines later and you can use it on the next drop.
 
+Want buttons instead of Terminal? Use the local web UI: **[opensea-mint-ui](https://github.com/reallyshadydev/opensea-mint-ui)**.
+
 ---
 
 ## What it does, in plain English
