@@ -8,6 +8,7 @@
     "status": "tsx src/index.ts status",
     "check": "tsx src/index.ts check",
     "generate": "tsx src/index.ts generate",
+    "key": "tsx src/index.ts key",
     "fund": "tsx src/index.ts fund",
     "snipe": "tsx src/index.ts snipe",
     "typecheck": "tsc --noEmit"

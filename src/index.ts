@@ -18,6 +18,7 @@ import {
   waitForPublicLive,
   writeResults,
 } from "./snipe.js";
+import { saveOpenSeaKey } from "./key.js";
 import { generateWallets, loadWallets, shortAddr, writeWalletsCsv } from "./wallets.js";
 
 async function main() {
@@ -25,6 +26,10 @@ async function main() {
 
   if (opts.command === "generate") {
     generate(opts);
+    return;
+  }
+  if (opts.command === "key") {
+    await saveOpenSeaKey(opts.force);
     return;
   }
 
@@ -268,7 +273,7 @@ async function snipe(
 
   const sent = results.filter((r) => r.hash);
   if (sent.length > 0) {
-    console.log("Waiting for receipts…");
+    console.log("Waiting for receipts...");
     for (const r of sent) {
       if (!r.hash) continue;
       try {

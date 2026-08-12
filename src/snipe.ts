@@ -1,4 +1,5 @@
 import { writeFileSync } from "node:fs";
+import { resolveProjectPath } from "./paths.js";
 import {
   formatEther,
   hexToBigInt,
@@ -46,7 +47,7 @@ export async function waitForPublicLive(client: PublicClient, cfg: AppConfig = e
     }
     if (!window.configured) {
       if (Date.now() - lastLog > 10_000) {
-        console.log("Public drop not configured on-chain yet — polling…");
+        console.log("Public drop not configured on-chain yet - polling...");
         lastLog = Date.now();
       }
       await sleep(2_000);
@@ -180,8 +181,8 @@ export async function printOpenSeaHint(cfg: AppConfig = env()): Promise<void> {
 }
 
 export function writeResults(results: MintResult[]): void {
-  const file = process.env.RESULTS_FILE || "results.json";
-  writeFileSync(file, JSON.stringify(results, null, 2));
+  const file = resolveProjectPath(process.env.RESULTS_FILE, "results.json");
+  writeFileSync(file, `${JSON.stringify(results, null, 2)}\n`);
   const ok = results.filter((r) => r.ok && r.hash).length;
   const skip = results.filter((r) => r.skipped).length;
   const fail = results.filter((r) => !r.ok && !r.skipped).length;

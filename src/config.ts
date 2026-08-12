@@ -2,13 +2,15 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { config as loadEnv } from "dotenv";
 import { getAddress, isAddress, isHex, type Address, type Hex } from "viem";
+import { fromRoot, resolveProjectPath } from "./paths.js";
 
-loadEnv();
+loadEnv({ path: fromRoot(".env") });
+loadEnv({ path: resolve(process.cwd(), ".env"), override: false });
 
 export type MintMode = "seadrop" | "opensea";
 
 export type CliOptions = {
-  command: "status" | "check" | "fund" | "snipe" | "generate";
+  command: "status" | "check" | "fund" | "snipe" | "generate" | "key";
   live: boolean;
   dryRun: boolean;
   yes: boolean;
@@ -58,10 +60,11 @@ const DEFAULTS = {
 export function parseArgs(argv: string[]): CliOptions {
   const args = argv.slice(2);
   const raw = args[0] ?? "status";
-  const aliased = raw === "prepare" ? "check" : raw === "gen" || raw === "wallets" ? "generate" : raw;
+  const aliased =
+    raw === "prepare" ? "check" : raw === "gen" || raw === "wallets" ? "generate" : raw === "apikey" ? "key" : raw;
   const command = aliased as CliOptions["command"];
-  if (!["status", "check", "fund", "snipe", "generate"].includes(command)) {
-    throw new Error(`Unknown command: ${raw}. Use status | check | fund | snipe | generate`);
+  if (!["status", "check", "fund", "snipe", "generate", "key"].includes(command)) {
+    throw new Error(`Unknown command: ${raw}. Use status | check | fund | snipe | generate | key`);
   }
 
   const getNum = (flag: string): number | undefined => {
@@ -139,7 +142,7 @@ export function txUrl(hash: string, explorerUrl = env().explorerUrl): string {
 }
 
 export function walletsPath(explicit?: string): string {
-  return resolve(explicit || process.env.WALLETS_FILE || "./wallets.csv");
+  return resolveProjectPath(explicit || process.env.WALLETS_FILE, "wallets.csv");
 }
 
 export function resolveWalletsFile(explicit?: string): string {

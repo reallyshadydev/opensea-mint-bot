@@ -6,5 +6,6 @@ wallets.csv
 wallets*.csv
 !wallets.example.csv
 results.json
+ci-wallets.csv
 *.log
 .DS_Store

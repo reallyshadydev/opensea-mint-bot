@@ -1,7 +1,8 @@
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 import { getAddress, type Address, type Hex } from "viem";
 import { normalizeKey } from "./config.js";
+import { readTextFile, writeSecretFile } from "./fsutil.js";
 
 export type LoadedWallet = {
   index: number;
@@ -10,7 +11,7 @@ export type LoadedWallet = {
 };
 
 export function loadWallets(filePath: string, limit?: number): LoadedWallet[] {
-  const text = readFileSync(filePath, "utf8");
+  const text = readTextFile(filePath);
   const lines = text
     .split(/\r?\n/)
     .map((l) => l.trim())
@@ -62,7 +63,7 @@ export function loadWallets(filePath: string, limit?: number): LoadedWallet[] {
 }
 
 export function shortAddr(address: string): string {
-  return `${address.slice(0, 6)}…${address.slice(-4)}`;
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
 
 export function generateWallets(count: number): LoadedWallet[] {
@@ -108,6 +109,6 @@ export function writeWalletsCsv(
 
   const all = [...existing, ...added];
   const lines = ["index,address,private_key", ...all.map((w) => `${w.index},${w.address},${w.privateKey}`)];
-  writeFileSync(filePath, `${lines.join("\n")}\n`, { encoding: "utf8", mode: 0o600 });
+  writeSecretFile(filePath, `${lines.join("\n")}\n`);
   return { written: added, total: all.length };
 }
