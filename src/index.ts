@@ -19,6 +19,7 @@ import {
   writeResults,
 } from "./snipe.js";
 import { saveOpenSeaKey } from "./key.js";
+import { printSummary, runSimulations } from "./simulate.js";
 import { generateWallets, loadWallets, shortAddr, writeWalletsCsv } from "./wallets.js";
 
 async function main() {
@@ -40,10 +41,24 @@ async function main() {
     await status(client, cfg);
     return;
   }
+  if (opts.command === "simulate") {
+    const wallets = opts.walletsFile ? loadWallets(resolveWalletsFile(opts.walletsFile), opts.limit) : undefined;
+    if (wallets) console.log(`Loaded ${wallets.length} wallet(s) for sim`);
+    const failed = printSummary(
+      await runSimulations({
+        cfg,
+        quantity: BigInt(opts.quantity),
+        count: opts.count,
+        wallets,
+      }),
+    );
+    process.exitCode = failed > 0 ? 1 : 0;
+    return;
+  }
 
-  const walletsPath = resolveWalletsFile(opts.walletsFile);
-  const wallets = loadWallets(walletsPath, opts.limit);
-  console.log(`Loaded ${wallets.length} wallet(s) from ${walletsPath}`);
+  const walletsFile = resolveWalletsFile(opts.walletsFile);
+  const wallets = loadWallets(walletsFile, opts.limit);
+  console.log(`Loaded ${wallets.length} wallet(s) from ${walletsFile}`);
 
   if (opts.command === "check") {
     await checkWallets(client, cfg, wallets, BigInt(opts.quantity));

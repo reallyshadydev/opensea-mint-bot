@@ -190,8 +190,11 @@ The bot will:
 Practice without spending anything:
 
 ```bash
+npm run simulate
 npm run snipe -- --dry-run --yes
 ```
+
+`simulate` forks the live chain on your machine, jumps to public start, and tries mints (too early, happy path, already minted, broke wallet, too many). No real ETH is spent. Needs [Foundry](https://getfoundry.sh) (`anvil`).
 
 That does the full wait, then pretends to mint.
 
@@ -214,6 +217,7 @@ The `--` in the middle is required. It tells npm “the rest is for the bot, not
 | `npm run fund -- --live` | Actually send ETH to them |
 | `npm run snipe -- --yes` | Wait, then mint for real |
 | `npm run snipe -- --dry-run --yes` | Rehearsal, no money spent |
+| `npm run simulate` | Fork the chain and run fake mints |
 
 ---
 

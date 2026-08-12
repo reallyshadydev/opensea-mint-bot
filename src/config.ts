@@ -10,7 +10,7 @@ loadEnv({ path: resolve(process.cwd(), ".env"), override: false });
 export type MintMode = "seadrop" | "opensea";
 
 export type CliOptions = {
-  command: "status" | "check" | "fund" | "snipe" | "generate" | "key";
+  command: "status" | "check" | "fund" | "snipe" | "generate" | "key" | "simulate";
   live: boolean;
   dryRun: boolean;
   yes: boolean;
@@ -61,10 +61,18 @@ export function parseArgs(argv: string[]): CliOptions {
   const args = argv.slice(2);
   const raw = args[0] ?? "status";
   const aliased =
-    raw === "prepare" ? "check" : raw === "gen" || raw === "wallets" ? "generate" : raw === "apikey" ? "key" : raw;
+    raw === "prepare"
+      ? "check"
+      : raw === "gen" || raw === "wallets"
+        ? "generate"
+        : raw === "apikey"
+          ? "key"
+          : raw === "sim"
+            ? "simulate"
+            : raw;
   const command = aliased as CliOptions["command"];
-  if (!["status", "check", "fund", "snipe", "generate", "key"].includes(command)) {
-    throw new Error(`Unknown command: ${raw}. Use status | check | fund | snipe | generate | key`);
+  if (!["status", "check", "fund", "snipe", "generate", "key", "simulate"].includes(command)) {
+    throw new Error(`Unknown command: ${raw}. Use status | check | fund | snipe | generate | key | simulate`);
   }
 
   const getNum = (flag: string): number | undefined => {
