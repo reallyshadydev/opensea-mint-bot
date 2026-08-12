@@ -4,6 +4,20 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Multi-wallet public mint bot for OpenSea SeaDrop collections. Collection and chain are configured via .env.",
+  "exports": {
+    "./package.json": "./package.json",
+    "./config": "./src/config.ts",
+    "./clients": "./src/clients.ts",
+    "./seadrop": "./src/seadrop.ts",
+    "./snipe": "./src/snipe.ts",
+    "./wallets": "./src/wallets.ts",
+    "./key": "./src/key.ts",
+    "./simulate": "./src/simulate.ts",
+    "./opensea": "./src/opensea.ts",
+    "./paths": "./src/paths.ts",
+    "./fsutil": "./src/fsutil.ts",
+    "./chain": "./src/chain.ts"
+  },
   "scripts": {
     "status": "tsx src/index.ts status",
     "check": "tsx src/index.ts check",
